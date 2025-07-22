@@ -12,15 +12,19 @@ load_dotenv()
 POSTGRES_URL = os.getenv("POSTGRES_URL") 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Connect to the PostgreSQL database
 db = SQLDatabase.from_uri(POSTGRES_URL) # type: ignore
 
+# Initialize the language model with OpenAI API key
 llm = ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY) # type: ignore
 
+# Create a toolkit for the database
 db_toolkit = SQLDatabaseToolkit(llm=llm, db=db)
 
 tools = db_toolkit.get_tools()
 
 agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True) # type: ignore
 
+# Function to query the agent with user input
 def query_agent(input_text):
     return agent.run(input_text)

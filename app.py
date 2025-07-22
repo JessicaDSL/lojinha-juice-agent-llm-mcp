@@ -3,6 +3,7 @@ import os
 from agent import query_agent
 from PIL import Image
 
+# Set the base directory and load the logo image
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 logo_path = os.path.join(BASE_DIR, "assets", "img", "design-logo-juice-store.png")
 
@@ -43,18 +44,21 @@ st.markdown(
   unsafe_allow_html=True,
 )
 
+# Load the logo image
 st.image(logo, width=400)
-
 st.markdown('<h1 class="title">Lojinha Sucos & Sanduíches</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Converse com nosso assistente virtual!</p>', unsafe_allow_html=True)
 
+# Initialize session state for chat history
 if "history" not in st.session_state:
     st.session_state.history = []
 
+# Display chat messages from history
 for role, message in st.session_state.history:
     with st.chat_message(role):
         st.markdown(message)
 
+# Input field for user prompt
 if prompt := st.chat_input("Pergunte algo sobre o cardápio ou sobre a nossa loja:"):
     st.session_state.history.append(("user", prompt))
 
